@@ -103,19 +103,11 @@ fn main() {
 		exit(0)
 	}
 
-	// try run make to build v for unix	
+	// try build v for current os (linux in this case)
 	cmd_exec(log, 'make -C $github_repo_v')
 	vexec := '$github_repo_v/v'
 	// check if make was successful
 	assert_file_exists_and_is_not_too_short( log, vexec, err_msg_make )
-	
-	// try build v for current os (linux in this case)
-	cmd_exec('make -C $github_repo_v')
-	// check if make was successful
-	if !os.file_exists('$github_repo_v/v') {
-		println('$err_msg_build: ${err_msg_make}.')
-		exit(1)
-	}
 	
 	// build v.c for each os
 	for os_name in vc_build_oses {
