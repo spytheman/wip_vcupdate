@@ -88,18 +88,16 @@ fn main() {
 		exit(0)
 	}
 	
+	// try build v for current os (linux in this case)
+	cmd_exec('make -C $github_repo_v')
+	// check if make was successful
+	if !os.file_exists('$github_repo_v/v') {
+		println('$err_msg_build: ${err_msg_make}.')
+		exit(1)
+	}
+	
 	// build v.c for each os
 	for os_name in vc_build_oses {
-		// try build v for unix
-		if os_name == 'unix' {
-			// try run make
-			cmd_exec('make -C $github_repo_v')
-			// check if make was successful
-			if !os.file_exists('$github_repo_v/v') {
-				println('$err_msg_build: ${err_msg_make}.')
-				exit(1)
-			}
-		}
 		// try generate v.c
 		vc_suffix := if os_name == 'unix' { '' } else { '_${os_name.left(3)}' }
 		v_os_arg := if os_name == 'unix' { '' } else { '-os $os_name' }
