@@ -9,8 +9,8 @@ import (
 
 // git credentials
 const(
-	git_username = ''
-	git_password = ''
+	git_username = os.getenv('GITUSER')
+	git_password = os.getenv('GITPASS')
 )
 // github repo
 const(
@@ -39,6 +39,8 @@ const(
 
 fn main() {
 	log := log.Log{log.DEBUG, 'terminal'}
+	//log.info('gituser: "$git_username"')
+	//log.info('gitpass: "$git_password"')
 	
 	// check if vcupdate dir exists
 	if !os.dir_exists(vcupdate_dir) {
