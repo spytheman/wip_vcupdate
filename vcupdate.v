@@ -60,7 +60,7 @@ fn main() {
 	cmd_exec('rm -rf $github_repo_vc')
 	
 	// clone repos
-	cmd_exec('git clone --depth 1 https://github.com/vlang/$github_repo_v')
+	cmd_exec('git clone --depth 1 https://github.com/$github_repo_user/$github_repo_v')
 	cmd_exec('git clone --depth 1 https://github.com/$github_repo_user/$github_repo_vc')
 	
 	// get output of git log -1 (last commit)
