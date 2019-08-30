@@ -27,7 +27,7 @@ const(
 
 const(
 	// vcupdate working directory
-	vcupdate_dir = '/mnt/storage/homes/kastro/dev/vcupdate'
+	vcupdate_dir = '/home/user/dev/vcupdate'
 	// create a .c file for these os's
 	vc_build_oses = [
 		'unix',
@@ -38,8 +38,12 @@ const(
 fn main() {
 	// check if vcupdate dir exists
 	if !os.dir_exists(vcupdate_dir) {
-		println('vcupdate dir does not exist: $vcupdate_dir')
-		exit(1)
+		os.mkdir(vcupdate_dir)
+		// try create
+		if !os.dir_exists(vcupdate_dir) {
+			println('error creating directory: $vcupdate_dir')
+			exit(1)
+		}
 	}
 	// cd to vcupdate dir
 	os.chdir(vcupdate_dir)
@@ -124,6 +128,7 @@ fn main() {
 	cmd_exec('git -C $github_repo_vc commit -m "update from master - $last_commit_id_v"')
 	// push vc changes to remote
 	cmd_exec('git -C $github_repo_vc push https://${urllib.query_escape(git_username)}:${urllib.query_escape(git_password)}@github.com/$github_repo_user/$github_repo_vc master')
+	println('vc repo successfully updated.')
 }
 
 fn cmd_exec(cmd string) string {
