@@ -49,8 +49,8 @@ fn main() {
 	os.chdir(vcupdate_dir)
 	// once we use webhook we can get rid of this
 	// instead of deleting and re-downloading the repo each time
-	// it first checks to see it the existing one is behind master
-	// if it isn't behind theres no point continuing
+	// it first checks to see if the existing one is behind master
+	// if it isn't behind theres no point continuing further
 	if os.dir_exists(github_repo_v) {
 		git_status := cmd_exec('git -C $github_repo_v status')
 		if !git_status.contains('behind') {
@@ -126,9 +126,8 @@ fn main() {
 	}
 	// commit to changes local vc repo
 	cmd_exec('git -C $github_repo_vc commit -m "update from master - $last_commit_id_v"')
-	// push vc changes to remote
+	// push changes to remote vc repo
 	cmd_exec('git -C $github_repo_vc push https://${urllib.query_escape(git_username)}:${urllib.query_escape(git_password)}@github.com/$github_repo_user/$github_repo_vc master')
-	println('vc repo successfully updated.')
 }
 
 fn cmd_exec(cmd string) string {
